@@ -1,0 +1,25 @@
+name: sdk_connectivity_cubit
+publish_to: none
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: ">=3.32.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  bip39: ^1.0.6
+  connectivity_plus: ^7.0.0
+  breez_sdk_spark:
+    path: ../breez_sdk_spark
+  credentials_manager:
+    path: ../credentials_manager
+  breez_sdk_spark_flutter:
+    path: /home/islabtc/AndroidStudioProjects/breezmisty/spark-sdk/packages/flutter
+  flutter_fgbg: ^0.7.1
+  flutter_bloc: ^9.1.1
+  flutter_secure_storage: ^9.2.4
+  logging: ^1.3.0

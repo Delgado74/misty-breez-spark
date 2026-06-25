@@ -1,0 +1,13 @@
+name: lightning_links
+publish_to: none
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: ">=3.32.0"
+
+resolution: workspace
+
+dependencies:
+  logging: ^1.3.0
+  app_links: <7.0.0
+  rxdart: ^0.28.0
