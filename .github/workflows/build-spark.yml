@@ -27,11 +27,32 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Cache cargo
+      - name: Cache cargo registry + installed tools
         uses: actions/cache@v4
         with:
-          path: ~/.cargo
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/bin
           key: cargo-${{ hashFiles('spark-sdk/packages/flutter/rust/Cargo.lock') }}
+
+      - name: Cache Rust target dir
+        uses: actions/cache@v4
+        with:
+          path: spark-sdk/packages/flutter/rust/target
+          key: rust-target-${{ hashFiles('spark-sdk/packages/flutter/rust/Cargo.lock') }}
+          restore-keys: rust-target-
+
+      - name: Cache Flutter pub
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            **/.dart_tool
+          key: flutter-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: flutter-pub-
+
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
       - name: Install dependencies for codegen
         run: |
@@ -49,6 +70,11 @@ jobs:
         run: |
           find . -name pubspec.yaml -exec sed -i \
             's|/home/islabtc/AndroidStudioProjects/breezmisty/spark-sdk/packages/flutter|../spark-sdk/packages/flutter|g' {} +
+
+      - name: Create env.json
+        working-directory: app
+        run: |
+          echo '{"API_KEY":"${{ secrets.BREEZ_API_KEY }}","NETWORK":"mainnet"}' > assets/env.json
 
       - name: Pub get
         working-directory: app
