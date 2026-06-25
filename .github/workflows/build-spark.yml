@@ -3,10 +3,21 @@ name: Build Spark
 on:
   workflow_dispatch:
 
+env:
+  SDK_REF: main
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo apt-get clean
+
       - name: Checkout app
         uses: actions/checkout@v4
         with:
@@ -17,44 +28,49 @@ jobs:
         with:
           repository: breez/spark-sdk
           path: spark-sdk
+          ref: ${{ env.SDK_REF }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.x'
+          channel: stable
+          flutter-version: 3.x
           cache: true
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
-
-      - name: Cache cargo registry + installed tools
-        uses: actions/cache@v4
         with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/bin
-          key: cargo-${{ hashFiles('spark-sdk/packages/flutter/rust/Cargo.lock') }}
+          targets: aarch64-linux-android
 
-      - name: Cache Rust target dir
-        uses: actions/cache@v4
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
         with:
-          path: spark-sdk/packages/flutter/rust/target
-          key: rust-target-${{ hashFiles('spark-sdk/packages/flutter/rust/Cargo.lock') }}
-          restore-keys: rust-target-
+          version: "27.2"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cache Flutter pub
-        uses: actions/cache@v4
+      - name: Configure Cargo (avoid HTTP/2 crates.io errors)
+        run: |
+          mkdir -p ~/.cargo
+          cat > ~/.cargo/config.toml << 'EOF'
+          [http]
+          multiplexing = false
+          [net]
+          retry = 3
+          EOF
+
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
         with:
-          path: |
-            ~/.pub-cache
-            **/.dart_tool
-          key: flutter-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: flutter-pub-
+          workspaces: spark-sdk/packages/flutter/rust/
+          cache-all-crates: true
 
-      - name: Install protoc
-        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
-
-      - name: Install dependencies for codegen
+      - name: Install flutter_rust_bridge_codegen
         run: |
           cargo install cargo-expand
           cargo install flutter_rust_bridge_codegen --version 2.11.1
@@ -76,16 +92,28 @@ jobs:
         run: |
           echo '{"API_KEY":"${{ secrets.BREEZ_API_KEY }}","NETWORK":"mainnet"}' > assets/env.json
 
-      - name: Pub get
+      - name: Get version from pubspec.yaml
         working-directory: app
-        run: flutter pub get
+        run: |
+          VERSION=$(awk -F ': ' '/^version:/ {print $2}' pubspec.yaml)
+          VERSION_BASE=${VERSION%%+*}
+          BUILD_NUMBER=$(date -u +%s)
+          echo "VERSION_BASE=$VERSION_BASE" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
-      - name: Build APK
+      - name: Build APK arm64-v8a
         working-directory: app
-        run: flutter build apk --debug --target-platform android-arm64
+        run: |
+          flutter build apk \
+            --build-name="$VERSION_BASE" \
+            --build-number="$BUILD_NUMBER" \
+            --target="lib/main/main.dart" \
+            --debug \
+            --target-platform android-arm64 \
+            --no-pub
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: apk
+          name: wallet-${{ env.VERSION_BASE }}-${{ env.BUILD_NUMBER }}-arm64-v8a
           path: app/build/app/outputs/flutter-apk/*.apk
