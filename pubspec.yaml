@@ -54,8 +54,11 @@ dependencies:
       url: https://github.com/breez/Breez-Translations
       ref: 86d0d7e1c871a4ede69d867313d796089c956385
   connectivity_plus: ^7.0.0
+  csv: ^6.0.0
   device_info_plus: ^12.2.0
   diacritic: ^0.1.6
+  dotted_decoration: ^2.1.0
+  duration: ^4.0.3
   drag_and_drop_lists:
     git:
       url: https://github.com/breez/DragAndDropLists

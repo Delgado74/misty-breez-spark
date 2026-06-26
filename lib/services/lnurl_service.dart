@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:breez_sdk_spark/breez_sdk_spark.dart';
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:logging/logging.dart';
 import 'package:misty_breez/cubit/cubit.dart';
 
@@ -31,9 +30,7 @@ class LnUrlService {
     _logger.info('Initiating LNURL withdraw');
 
     try {
-      final LnUrlWithdrawResult result = await _executeSDKOperation(
-        () => _breezSdkSpark.sdk!.lnurlWithdraw(req: req),
-      );
+      final LnUrlWithdrawResult result = _breezSdkSpark.lnurlWithdraw(req: req);
 
       _logger.info('LNURL withdraw completed successfully');
       return result;
@@ -53,9 +50,7 @@ class LnUrlService {
     _logger.info('Preparing LNURL payment');
 
     try {
-      final PrepareLnUrlPayResponse response = await _executeSDKOperation(
-        () => _breezSdkSpark.sdk!.prepareLnurlPay(req: req),
-      );
+      final PrepareLnUrlPayResponse response = _breezSdkSpark.prepareLnurlPay(req: req);
 
       _logger.info('LNURL payment preparation completed');
       return response;
@@ -75,9 +70,7 @@ class LnUrlService {
     _logger.info('Executing LNURL payment');
 
     try {
-      final LnUrlPayResult result = await _executeSDKOperation(
-        () => _breezSdkSpark.sdk!.lnurlPay(req: req),
-      );
+      final LnUrlPayResult result = _breezSdkSpark.lnurlPay(req: req);
 
       _logger.info('LNURL payment executed successfully');
       return result;
@@ -97,9 +90,7 @@ class LnUrlService {
     _logger.info('Authenticating with LNURL');
 
     try {
-      final LnUrlCallbackStatus status = await _executeSDKOperation(
-        () => _breezSdkSpark.sdk!.lnurlAuth(reqData: reqData),
-      );
+      final LnUrlCallbackStatus status = _breezSdkSpark.lnurlAuth(reqData: reqData);
 
       _logger.info('LNURL authentication completed');
       return status;

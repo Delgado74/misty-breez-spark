@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:logging/logging.dart';
 import 'package:misty_breez/routes/routes.dart';
 import 'package:misty_breez/services/services.dart';

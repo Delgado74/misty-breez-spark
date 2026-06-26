@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:breez_sdk_spark/breez_sdk_spark.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:lightning_links/lightning_links.dart';
 import 'package:logging/logging.dart';
 import 'package:misty_breez/cubit/cubit.dart';

@@ -1,4 +1,3 @@
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:misty_breez/cubit/payments/models/payment/payment_tracking_config.dart';
 
 /// A filter utility for tracking incoming payments

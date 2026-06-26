@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:logging/logging.dart';
 import 'package:misty_breez/cubit/cubit.dart';
 import 'package:misty_breez/routes/routes.dart';
@@ -35,9 +34,7 @@ Route<dynamic>? onGenerateRoute({
       );
     case Home.routeName:
       return FadeInRoute<void>(
-        builder: (BuildContext context) => BlocProvider<NwcCubit>(
-          create: NwcCubitFactory.of,
-          child: NavigatorPopHandler(
+        builder: (BuildContext context) => NavigatorPopHandler(
             onPopWithResult: (Object? result) => homeNavigatorKey.currentState!.maybePop(),
             child: Navigator(
               initialRoute: Home.routeName,
@@ -79,28 +76,9 @@ Route<dynamic>? onGenerateRoute({
                       ),
                       settings: settings,
                     );
-                  case GetRefundPage.routeName:
-                    return FadeInRoute<void>(
-                      builder: (BuildContext _) => const GetRefundPage(),
-                      settings: settings,
-                    );
-                  case RefundPage.routeName:
-                    return FadeInRoute<void>(
-                      builder: (BuildContext _) => RefundPage(swapInfo: settings.arguments as RefundableSwap),
-                      settings: settings,
-                    );
                   case EnterPaymentInfoPage.routeName:
                     return FadeInRoute<void>(
                       builder: (BuildContext _) => const EnterPaymentInfoPage(),
-                      settings: settings,
-                    );
-                  case SendChainSwapPage.routeName:
-                    return FadeInRoute<void>(
-                      builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
-                        create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
-                        child: SendChainSwapPage(btcAddressData: settings.arguments as BitcoinAddressData?),
-                      ),
                       settings: settings,
                     );
                   case LnPaymentPage.routeName:
@@ -132,31 +110,6 @@ Route<dynamic>? onGenerateRoute({
                           lnUrlPaymentArguments: settings.arguments as LnUrlPaymentArguments,
                         ),
                       ),
-                      settings: settings,
-                    );
-                  case NwcPage.routeName:
-                    return FadeInRoute<void>(
-                      builder: (BuildContext _) => const NwcPage(),
-                      settings: settings,
-                    );
-                  case NwcAddConnectionPage.routeName:
-                    return OptionalBlocFadeInRoute<NwcCubit>(
-                      create: NwcCubitFactory.of,
-                      childBuilder: (_) => const NwcAddConnectionPage(),
-                      settings: settings,
-                    );
-                  case NwcEditConnectionPage.routeName:
-                    final NwcConnectionModel connection = settings.arguments as NwcConnectionModel;
-                    return OptionalBlocFadeInRoute<NwcCubit>(
-                      create: NwcCubitFactory.of,
-                      childBuilder: (_) => NwcEditConnectionPage(connection: connection),
-                      settings: settings,
-                    );
-                  case NwcConnectionDetailPage.routeName:
-                    final NwcConnectionModel connection = settings.arguments as NwcConnectionModel;
-                    return OptionalBlocFadeInRoute<NwcCubit>(
-                      create: NwcCubitFactory.of,
-                      childBuilder: (_) => NwcConnectionDetailPage(connection: connection),
                       settings: settings,
                     );
                   case FiatCurrencySettings.routeName:

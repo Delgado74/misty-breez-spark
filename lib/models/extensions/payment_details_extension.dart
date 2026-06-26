@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:misty_breez/models/models.dart';
 import 'package:misty_breez/utils/utils.dart';
 

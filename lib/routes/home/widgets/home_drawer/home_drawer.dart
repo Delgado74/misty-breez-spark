@@ -20,62 +20,48 @@ class HomeDrawer extends StatelessWidget {
       builder: (BuildContext context, UserProfileState user) {
         final UserProfileSettings settings = user.profileSettings;
 
-        return BlocBuilder<RefundCubit, RefundState>(
-          builder: (BuildContext context, RefundState refundState) {
-            return BreezNavigationDrawer(
-              <DrawerItemConfigGroup>[
-                if (refundState.hasRefundables) ...<DrawerItemConfigGroup>[
-                  DrawerItemConfigGroup(<DrawerItemConfig>[
-                    DrawerItemConfig(
-                      GetRefundPage.routeName,
-                      texts.home_drawer_item_title_get_refund,
-                      'assets/icons/get_refund.png',
-                    ),
-                  ]),
-                ],
-                DrawerItemConfigGroup(<DrawerItemConfig>[
-                  DrawerItemConfig(
-                    '',
-                    texts.home_drawer_item_title_balance,
-                    'assets/icons/balance.png',
-                    isSelected: settings.appMode == AppMode.balance,
-                    onItemSelected: (_) {
-                      // TODO(ademar111190): add protectAdminAction
-                    },
-                  ),
-                ]),
-                DrawerItemConfigGroup(
-                  <DrawerItemConfig>[
-                    const DrawerItemConfig(NwcPage.routeName, 'Nostr Wallet Connect', 'assets/icons/nwc.png'),
-                    DrawerItemConfig(
-                      FiatCurrencySettings.routeName,
-                      texts.home_drawer_item_title_fiat_currencies,
-                      'assets/icons/fiat_currencies.png',
-                    ),
-                    DrawerItemConfig(
-                      SecuritySettings.routeName,
-                      texts.home_drawer_item_title_security_and_backup,
-                      'assets/icons/security.png',
-                    ),
-                    DrawerItemConfig(
-                      DevelopersView.routeName,
-                      texts.home_drawer_item_title_developers,
-                      'assets/icons/developers.png',
-                    ),
-                  ],
-                  groupTitle: texts.home_drawer_item_title_preferences,
-                  groupAssetImage: '',
-                  isExpanded: settings.expandPreferences,
+        return BreezNavigationDrawer(
+          <DrawerItemConfigGroup>[
+            DrawerItemConfigGroup(<DrawerItemConfig>[
+              DrawerItemConfig(
+                '',
+                texts.home_drawer_item_title_balance,
+                'assets/icons/balance.png',
+                isSelected: settings.appMode == AppMode.balance,
+                onItemSelected: (_) {
+                  // TODO(ademar111190): add protectAdminAction
+                },
+              ),
+            ]),
+            DrawerItemConfigGroup(
+              <DrawerItemConfig>[
+                DrawerItemConfig(
+                  FiatCurrencySettings.routeName,
+                  texts.home_drawer_item_title_fiat_currencies,
+                  'assets/icons/fiat_currencies.png',
+                ),
+                DrawerItemConfig(
+                  SecuritySettings.routeName,
+                  texts.home_drawer_item_title_security_and_backup,
+                  'assets/icons/security.png',
+                ),
+                DrawerItemConfig(
+                  DevelopersView.routeName,
+                  texts.home_drawer_item_title_developers,
+                  'assets/icons/developers.png',
                 ),
               ],
-              (String routeName) {
-                Navigator.of(context).pushNamed(routeName).then((Object? message) {
-                  if (message != null && message is String && context.mounted) {
-                    showFlushbar(context, message: message);
-                  }
-                });
-              },
-            );
+              groupTitle: texts.home_drawer_item_title_preferences,
+              groupAssetImage: '',
+              isExpanded: settings.expandPreferences,
+            ),
+          ],
+          (String routeName) {
+            Navigator.of(context).pushNamed(routeName).then((Object? message) {
+              if (message != null && message is String && context.mounted) {
+                showFlushbar(context, message: message);
+              }
+            });
           },
         );
       },

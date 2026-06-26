@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:breez_translations/breez_translations_locales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:logging/logging.dart';
 import 'package:misty_breez/cubit/cubit.dart';
 import 'package:misty_breez/handlers/handlers.dart';
@@ -184,7 +183,7 @@ class InputHandler extends Handler {
 
   Future<dynamic> handleBitcoinAddress(BuildContext context, BitcoinAddressInputState inputState) async {
     _logger.fine('Handle Bitcoin Address $inputState');
-    return await Navigator.of(context).pushNamed(SendChainSwapPage.routeName, arguments: inputState.data);
+    throw UnimplementedError('Bitcoin address payments not supported in Spark SDK');
   }
 
   void handleResult(dynamic result) {

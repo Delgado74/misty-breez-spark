@@ -1,5 +1,4 @@
 import 'package:breez_sdk_spark/breez_sdk_spark.dart';
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:logging/logging.dart';
 
 final Logger _logger = Logger('MessageSigner');

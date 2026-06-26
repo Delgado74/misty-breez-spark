@@ -29,7 +29,6 @@ class App extends StatelessWidget {
         ),
         BlocProvider<PaymentsCubit>(create: (BuildContext context) => PaymentsCubit(injector.breezSdkSpark)),
         BlocProvider<SdkConnectivityCubit>(create: (BuildContext context) => sdkConnectivityCubit),
-        BlocProvider<RefundCubit>(create: (BuildContext context) => RefundCubit(injector.breezSdkSpark)),
         BlocProvider<ConnectivityCubit>(create: (BuildContext context) => ConnectivityCubit()),
         BlocProvider<InputCubit>(
           create: (BuildContext context) => InputCubit(injector.breezSdkSpark, injector.lightningLinks),
@@ -43,12 +42,6 @@ class App extends StatelessWidget {
         BlocProvider<CurrencyCubit>(create: (BuildContext context) => CurrencyCubit(injector.breezSdkSpark)),
         BlocProvider<SecurityCubit>(create: (BuildContext context) => SecurityCubit(injector.keychain)),
         BlocProvider<BackupCubit>(create: (BuildContext context) => BackupCubit(injector.breezSdkSpark)),
-        BlocProvider<ChainSwapCubit>(
-          create: (BuildContext context) => ChainSwapCubit(injector.breezSdkSpark),
-        ),
-        BlocProvider<AmountlessBtcCubit>(
-          create: (BuildContext context) => AmountlessBtcCubit(injector.breezSdkSpark),
-        ),
         BlocProvider<PermissionsCubit>(create: (BuildContext context) => permissionsCubit),
       ],
       child: Provider<LnUrlService>(

@@ -1,4 +1,3 @@
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 
 extension InputTypeExtension on InputType {
   String toFormattedString() {

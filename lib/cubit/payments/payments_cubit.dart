@@ -4,7 +4,6 @@ import 'package:breez_sdk_spark/breez_sdk_spark.dart';
 import 'package:breez_translations/breez_translations_locales.dart';
 import 'package:breez_translations/generated/breez_translations.dart';
 import 'package:flutter/foundation.dart';
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:misty_breez/cubit/cubit.dart';
@@ -84,9 +83,9 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
   }
 
   Future<PrepareSendResponse> prepareSendPayment({required PrepareSendRequest req}) async {
-    _logger.info('prepareSendPayment\nPreparing send payment for destination: ${req.destination}');
+    _logger.info('prepareSendPayment\nPreparing send payment');
     try {
-      return await _breezSdkSpark.sdk!.prepareSendPayment(req: req);
+      return await _breezSdkSpark.prepareSendPayment(req: req);
     } catch (e) {
       _logger.severe('prepareSendPayment\nError preparing send payment', e);
       return Future<PrepareSendResponse>.error(e);
@@ -97,13 +96,9 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
     required PrepareSendResponse prepareResponse,
     String? payerNote,
   }) async {
-    _logger.info('sendPayment\nSending payment for ${prepareResponse.toFormattedString()}');
+    _logger.info('sendPayment\nSending payment');
     try {
-      final SendPaymentRequest req = SendPaymentRequest(
-        prepareResponse: prepareResponse,
-        payerNote: payerNote,
-      );
-      return await _breezSdkSpark.sdk!.sendPayment(req: req);
+      return await _breezSdkSpark.sendPayment(prepareResponse: prepareResponse, payerNote: payerNote);
     } catch (e) {
       _logger.severe('sendPayment\nError sending payment', e);
       return Future<SendPaymentResponse>.error(e);
@@ -116,14 +111,11 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
   }) async {
     _logger.info('prepareReceivePayment\nPreparing receive payment for $payerAmountSat sats');
     try {
-      final ReceiveAmount_Bitcoin? receiveAmount = payerAmountSat != null
-          ? ReceiveAmount_Bitcoin(payerAmountSat: payerAmountSat)
-          : null;
       final PrepareReceiveRequest req = PrepareReceiveRequest(
         paymentMethod: paymentMethod,
-        amount: receiveAmount,
+        amount: payerAmountSat,
       );
-      return _breezSdkSpark.sdk!.prepareReceivePayment(req: req);
+      return await _breezSdkSpark.prepareReceivePayment(req: req);
     } catch (e) {
       _logger.severe('prepareSendPayment\nError preparing receive payment', e);
       return Future<PrepareReceiveResponse>.error(e);
@@ -134,16 +126,9 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
     required PrepareReceiveResponse prepareResponse,
     String? description,
   }) async {
-    _logger.info(
-      'receivePayment\nReceive ${prepareResponse.paymentMethod.displayName} payment for amount: '
-      '${prepareResponse.amount} (sats), fees: ${prepareResponse.feesSat} (sats), description: $description',
-    );
+    _logger.info('receivePayment\nReceive payment for amount: $prepareResponse');
     try {
-      final ReceivePaymentRequest req = ReceivePaymentRequest(
-        prepareResponse: prepareResponse,
-        description: description,
-      );
-      return _breezSdkSpark.sdk!.receivePayment(req: req);
+      return await _breezSdkSpark.receivePayment(prepareResponse: prepareResponse);
     } catch (e) {
       _logger.severe('receivePayment\nError receiving payment', e);
       return Future<ReceivePaymentResponse>.error(e);
