@@ -5,6 +5,7 @@ import 'package:breez_sdk_spark/breez_sdk_spark.dart';
 import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:credentials_manager/credentials_manager.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:sdk_connectivity_cubit/sdk_connectivity_cubit.dart';
@@ -52,7 +53,8 @@ class SdkConnectivityCubit extends Cubit<SdkConnectivityState> {
       final spark_sdk.Config sdkConfig = (await AppConfig.instance()).sdkConfig;
       _logger.info('SDK configuration retrieved successfully.');
 
-      final spark_sdk.ConnectRequest req = spark_sdk.ConnectRequest(seed: spark_sdk.Seed.mnemonic(mnemonic: mnemonic), config: sdkConfig);
+      final String storageDir = '${(await getApplicationDocumentsDirectory()).path}/spark_sdk';
+      final spark_sdk.ConnectRequest req = spark_sdk.ConnectRequest(seed: spark_sdk.Seed.mnemonic(mnemonic: mnemonic), config: sdkConfig, storageDir: storageDir);
       _logger.info('Connecting to Breez Spark SDK.');
       await breezSdkSpark.connect(req: req);
       _logger.info('Successfully connected to Breez Spark SDK.');

@@ -61,6 +61,7 @@ Future<void> bootstrap(AppBuilder builder) async {
 
 Future<void> _initializeBreezSdkSpark() async {
   try {
+    await spark_sdk.BreezSdkSparkLib.init();
     spark_sdk.init_logging();
   } catch (error, stackTrace) {
     _logger.severe('Failed to initialize Breez SDK - Spark: $error', error, stackTrace);
