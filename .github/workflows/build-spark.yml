@@ -101,6 +101,10 @@ jobs:
           echo "VERSION_BASE=$VERSION_BASE" >> $GITHUB_ENV
           echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
+      - name: Flutter pub get
+        working-directory: app
+        run: flutter pub get
+
       - name: Build APK arm64-v8a
         working-directory: app
         run: |
