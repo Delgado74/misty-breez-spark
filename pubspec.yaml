@@ -1,4 +1,4 @@
-name: misty_breez_spark
+name: misty_breez
 description: "Spark-powered Breez SDK wallet."
 publish_to: 'none'
 version: 0.0.1

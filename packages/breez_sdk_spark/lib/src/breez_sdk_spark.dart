@@ -21,7 +21,7 @@ class BreezSDKSpark {
   Future<void> connect({required spark_sdk.ConnectRequest req}) async {
     _sdk = await spark_sdk.connect(request: req);
     _logger.info('Connected to Breez Spark SDK');
-    _logger.info('Node pubkey: ${_sdk!.get_info(request: const spark_sdk.GetInfoRequest()).identity_pubkey}');
+    _logger.info('Node pubkey: ${_sdk!.getInfo(request: const spark_sdk.GetInfoRequest()).identityPubkey}');
   }
 
   Future<void> disconnect() async {

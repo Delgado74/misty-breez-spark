@@ -31,8 +31,8 @@ class AppConfig {
           ? spark_sdk.Network.regtest
           : spark_sdk.Network.mainnet;
 
-      final config = spark_sdk.default_config(network: network);
-      config.api_key = apiKey;
+      final config = spark_sdk.defaultConfig(network: network);
+      config.apiKey = apiKey;
 
       _logger.info('AppConfig loaded: network=$networkStr');
       return AppConfig._(config);

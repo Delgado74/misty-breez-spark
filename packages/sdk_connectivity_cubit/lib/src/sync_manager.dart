@@ -48,7 +48,7 @@ class SyncManager {
     if (wallet != null) {
       try {
         _logger.info('Syncing.');
-        await wallet!.sync_wallet(request: const spark_sdk.SyncWalletRequest());
+        await wallet!.syncWallet(request: const spark_sdk.SyncWalletRequest());
         _lastSync = DateTime.now();
         _logger.info('Synced successfully.');
       } catch (e) {

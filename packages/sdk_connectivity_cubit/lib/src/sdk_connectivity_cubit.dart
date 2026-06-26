@@ -61,7 +61,7 @@ class SdkConnectivityCubit extends Cubit<SdkConnectivityState> {
 
       _startSyncing();
 
-      await _storeBreezApiKey(sdkConfig.api_key);
+      await _storeBreezApiKey(sdkConfig.apiKey);
       if (storeMnemonic) {
         await credentialsManager.storeMnemonic(mnemonic: mnemonic);
       }
