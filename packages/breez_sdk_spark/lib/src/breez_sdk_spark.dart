@@ -13,9 +13,6 @@ class BreezSDKSpark {
 
   spark_sdk.BreezSdk? _sdk;
   spark_sdk.BreezSdk? get sdk => _sdk;
-  @Deprecated('Use sdk instead')
-  spark_sdk.BreezSdk? get instance => _sdk;
-
   final StreamController<spark_sdk.LogEntry> _logController =
       StreamController<spark_sdk.LogEntry>.broadcast();
   Stream<spark_sdk.LogEntry> get logStream => _logController.stream;

@@ -28,7 +28,7 @@ class CurrencyCubit extends Cubit<CurrencyState> with HydratedMixin<CurrencyStat
   }
 
   void listFiatCurrencies() {
-    breezSdkSpark.instance!.listFiatCurrencies().then((List<FiatCurrency> fiatCurrencies) {
+    breezSdkSpark.sdk!.listFiatCurrencies().then((List<FiatCurrency> fiatCurrencies) {
       emit(
         state.copyWith(
           fiatCurrenciesData: _sortedFiatCurrenciesList(fiatCurrencies, state.preferredCurrencies),
@@ -59,7 +59,7 @@ class CurrencyCubit extends Cubit<CurrencyState> with HydratedMixin<CurrencyStat
   }
 
   Future<Map<String, Rate>> fetchExchangeRates() async {
-    final List<Rate> rates = await breezSdkSpark.instance!.fetchFiatRates();
+    final List<Rate> rates = await breezSdkSpark.sdk!.fetchFiatRates();
     final Map<String, Rate> exchangeRates = rates.fold<Map<String, Rate>>(<String, Rate>{}, (
       Map<String, Rate> map,
       Rate rate,

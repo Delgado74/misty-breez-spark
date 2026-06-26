@@ -137,7 +137,7 @@ class LnAddressCubit extends Cubit<LnAddressState> {
   }
 
   Future<WalletInfo> _getWalletInfo() async {
-    return (await breezSdkSpark.instance?.getInfo())?.walletInfo ??
+    return (await breezSdkSpark.sdk?.getInfo())?.walletInfo ??
         (throw Exception('Failed to retrieve wallet info'));
   }
 
@@ -149,7 +149,7 @@ class LnAddressCubit extends Cubit<LnAddressState> {
 
   Future<String?> _getBolt12Offer() async {
     try {
-      final spark_sdk.BreezSdk sdkInstance = breezSdkSpark.instance!;
+      final spark_sdk.BreezSdk sdkInstance = breezSdkSpark.sdk!;
       const PrepareReceiveRequest prepareReq = PrepareReceiveRequest(
         paymentMethod: PaymentMethod.bolt12Offer,
       );

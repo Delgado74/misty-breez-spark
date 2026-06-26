@@ -25,7 +25,7 @@ class BackupCubit extends Cubit<BackupState?> {
   Future<void> backup() async {
     try {
       emit(BackupState(status: BackupStatus.inProgress));
-      _breezSdkSpark.instance?.backup(req: const BackupRequest());
+      _breezSdkSpark.sdk?.backup(req: const BackupRequest());
       emit(BackupState(status: BackupStatus.success));
     } catch (e) {
       _logger.info('Failed to backup');

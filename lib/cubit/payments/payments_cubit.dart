@@ -86,7 +86,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
   Future<PrepareSendResponse> prepareSendPayment({required PrepareSendRequest req}) async {
     _logger.info('prepareSendPayment\nPreparing send payment for destination: ${req.destination}');
     try {
-      return await _breezSdkSpark.instance!.prepareSendPayment(req: req);
+      return await _breezSdkSpark.sdk!.prepareSendPayment(req: req);
     } catch (e) {
       _logger.severe('prepareSendPayment\nError preparing send payment', e);
       return Future<PrepareSendResponse>.error(e);
@@ -103,7 +103,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
         prepareResponse: prepareResponse,
         payerNote: payerNote,
       );
-      return await _breezSdkSpark.instance!.sendPayment(req: req);
+      return await _breezSdkSpark.sdk!.sendPayment(req: req);
     } catch (e) {
       _logger.severe('sendPayment\nError sending payment', e);
       return Future<SendPaymentResponse>.error(e);
@@ -123,7 +123,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
         paymentMethod: paymentMethod,
         amount: receiveAmount,
       );
-      return _breezSdkSpark.instance!.prepareReceivePayment(req: req);
+      return _breezSdkSpark.sdk!.prepareReceivePayment(req: req);
     } catch (e) {
       _logger.severe('prepareSendPayment\nError preparing receive payment', e);
       return Future<PrepareReceiveResponse>.error(e);
@@ -143,7 +143,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
         prepareResponse: prepareResponse,
         description: description,
       );
-      return _breezSdkSpark.instance!.receivePayment(req: req);
+      return _breezSdkSpark.sdk!.receivePayment(req: req);
     } catch (e) {
       _logger.severe('receivePayment\nError receiving payment', e);
       return Future<ReceivePaymentResponse>.error(e);

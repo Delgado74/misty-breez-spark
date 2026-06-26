@@ -89,7 +89,7 @@ class WebhookService {
   /// Registers a webhook with timeout handling.
   Future<void> _registerWebhook(String webhookUrl, Duration timeout) async {
     try {
-      final spark_sdk.BreezSdk? sdk = _breezSdkSpark.instance;
+      final spark_sdk.BreezSdk? sdk = _breezSdkSpark.sdk;
       if (sdk == null) {
         throw RegisterWebhookException('Breez SDK not initialized');
       }

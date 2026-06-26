@@ -12,7 +12,7 @@ class MessageSigner {
   Future<String> signMessage(String message) async {
     _logger.info('Signing message: $message');
 
-    final SignMessageResponse? signMessageRes = breezSdkSpark.instance?.signMessage(
+    final SignMessageResponse? signMessageRes = breezSdkSpark.sdk?.signMessage(
       req: SignMessageRequest(message: message),
     );
 

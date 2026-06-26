@@ -46,7 +46,7 @@ class InputCubit extends Cubit<InputState> {
       // Emit an empty InputState with isLoading to display a loader on UI layer
       emit(const InputState.loading());
       try {
-        final InputType parsedInput = await _breezSdkSpark.instance!.parse(input: input.data);
+        final InputType parsedInput = await _breezSdkSpark.sdk!.parse(input: input.data);
         return await _handleParsedInput(parsedInput, input.source);
       } catch (e) {
         _logger.severe('Failed to parse input', e);
@@ -90,6 +90,6 @@ class InputCubit extends Cubit<InputState> {
 
   Future<InputType> parseInput({required String input}) async {
     _logger.info('parseInput: $input');
-    return await _breezSdkSpark.instance!.parse(input: input);
+    return await _breezSdkSpark.sdk!.parse(input: input);
   }
 }
