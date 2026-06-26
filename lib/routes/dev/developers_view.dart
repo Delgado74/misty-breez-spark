@@ -88,7 +88,7 @@ class _DevelopersViewState extends State<DevelopersView> {
   /// Loads the default BOLT12 offer
   Future<void> _loadBolt12Offer() async {
     try {
-      final BreezSdkLiquid sdk = ServiceInjector().breezSdkLiquid.instance!;
+      final spark_sdk.BreezSdk sdk = ServiceInjector().breezSdkSpark.instance!;
       const PrepareReceiveRequest prepareReq = PrepareReceiveRequest(
         paymentMethod: PaymentMethod.bolt12Offer,
       );
@@ -112,7 +112,7 @@ class _DevelopersViewState extends State<DevelopersView> {
     _overlayManager.showLoadingOverlay(context);
 
     try {
-      await ServiceInjector().breezSdkLiquid.instance!.sync();
+      await ServiceInjector().breezSdkSpark.instance!.sync();
 
       if (mounted) {
         _showSuccessMessage('Wallet synced successfully.');

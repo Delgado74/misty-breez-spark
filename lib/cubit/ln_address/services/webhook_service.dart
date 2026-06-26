@@ -28,7 +28,7 @@ class WebhookService {
   /// Base URL for the notification service.
   static const String _notifierServiceURL = 'https://notifier.breez.technology';
 
-  final BreezSDKLiquid _breezSdkLiquid;
+  final BreezSDKSpark _breezSdkSpark;
   final NotificationsClient _notificationsClient;
   final PermissionsCubit _permissionsCubit;
 
@@ -43,10 +43,10 @@ class WebhookService {
 
   /// Creates a new [WebhookService] instance.
   ///
-  /// Requires [BreezSDKLiquid] for webhook registration,
+  /// Requires [BreezSDKSpark] for webhook registration,
   /// [NotificationsClient] for notification token management and
   /// [PermissionsCubit] for notification permission management.
-  WebhookService(this._breezSdkLiquid, this._notificationsClient, this._permissionsCubit);
+  WebhookService(this._breezSdkSpark, this._notificationsClient, this._permissionsCubit);
 
   /// Registers a webhook with the Breez SDK.
   ///
@@ -89,7 +89,7 @@ class WebhookService {
   /// Registers a webhook with timeout handling.
   Future<void> _registerWebhook(String webhookUrl, Duration timeout) async {
     try {
-      final BreezSdkLiquid? sdk = _breezSdkLiquid.instance;
+      final spark_sdk.BreezSdk? sdk = _breezSdkSpark.instance;
       if (sdk == null) {
         throw RegisterWebhookException('Breez SDK not initialized');
       }

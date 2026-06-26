@@ -12,23 +12,23 @@ export 'currency_state.dart';
 final Logger _logger = Logger('CurrencyCubit');
 
 class CurrencyCubit extends Cubit<CurrencyState> with HydratedMixin<CurrencyState> {
-  final BreezSDKLiquid breezSdkLiquid;
+  final BreezSDKSpark breezSdkSpark;
 
-  CurrencyCubit(this.breezSdkLiquid) : super(CurrencyState.initial()) {
+  CurrencyCubit(this.breezSdkSpark) : super(CurrencyState.initial()) {
     hydrate();
 
     _initializeCurrencyCubit();
   }
 
   void _initializeCurrencyCubit() {
-    breezSdkLiquid.getInfoResponseStream.first.then((GetInfoResponse getInfoResponse) {
+    breezSdkSpark.getInfoResponseStream.first.then((GetInfoResponse getInfoResponse) {
       listFiatCurrencies();
       fetchExchangeRates();
     });
   }
 
   void listFiatCurrencies() {
-    breezSdkLiquid.instance!.listFiatCurrencies().then((List<FiatCurrency> fiatCurrencies) {
+    breezSdkSpark.instance!.listFiatCurrencies().then((List<FiatCurrency> fiatCurrencies) {
       emit(
         state.copyWith(
           fiatCurrenciesData: _sortedFiatCurrenciesList(fiatCurrencies, state.preferredCurrencies),
@@ -59,7 +59,7 @@ class CurrencyCubit extends Cubit<CurrencyState> with HydratedMixin<CurrencyStat
   }
 
   Future<Map<String, Rate>> fetchExchangeRates() async {
-    final List<Rate> rates = await breezSdkLiquid.instance!.fetchFiatRates();
+    final List<Rate> rates = await breezSdkSpark.instance!.fetchFiatRates();
     final Map<String, Rate> exchangeRates = rates.fold<Map<String, Rate>>(<String, Rate>{}, (
       Map<String, Rate> map,
       Rate rate,

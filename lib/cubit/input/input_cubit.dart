@@ -13,12 +13,12 @@ export 'input_state.dart';
 final Logger _logger = Logger('InputCubit');
 
 class InputCubit extends Cubit<InputState> {
-  final BreezSDKLiquid _breezSdkLiquid;
+  final BreezSDKSpark _breezSdkSpark;
   final LightningLinksService _lightningLinks;
 
   final StreamController<InputData> _decodeInvoiceController = StreamController<InputData>();
 
-  InputCubit(this._breezSdkLiquid, this._lightningLinks) : super(const InputState.empty()) {
+  InputCubit(this._breezSdkSpark, this._lightningLinks) : super(const InputState.empty()) {
     _initializeInputCubit();
   }
 
@@ -46,7 +46,7 @@ class InputCubit extends Cubit<InputState> {
       // Emit an empty InputState with isLoading to display a loader on UI layer
       emit(const InputState.loading());
       try {
-        final InputType parsedInput = await _breezSdkLiquid.instance!.parse(input: input.data);
+        final InputType parsedInput = await _breezSdkSpark.instance!.parse(input: input.data);
         return await _handleParsedInput(parsedInput, input.source);
       } catch (e) {
         _logger.severe('Failed to parse input', e);
@@ -90,6 +90,6 @@ class InputCubit extends Cubit<InputState> {
 
   Future<InputType> parseInput({required String input}) async {
     _logger.info('parseInput: $input');
-    return await _breezSdkLiquid.instance!.parse(input: input);
+    return await _breezSdkSpark.instance!.parse(input: input);
   }
 }

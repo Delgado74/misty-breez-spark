@@ -14,12 +14,12 @@ final Logger _logger = Logger('LnUrlService');
 /// functionality, including withdrawals, payments, and authentication.
 class LnUrlService {
   /// Internal SDK reference for Breez Liquid operations
-  final BreezSDKLiquid _breezSdkLiquid;
+  final BreezSDKSpark _breezSdkSpark;
 
-  /// Creates a new LnUrlService with the required BreezSDKLiquid instance
+  /// Creates a new LnUrlService with the required BreezSDKSpark instance
   ///
-  /// [_breezSdkLiquid] The SDK instance to use for LNURL operations
-  LnUrlService(this._breezSdkLiquid);
+  /// [_breezSdkSpark] The SDK instance to use for LNURL operations
+  LnUrlService(this._breezSdkSpark);
 
   /// Process an LNURL withdraw request
   ///
@@ -32,7 +32,7 @@ class LnUrlService {
 
     try {
       final LnUrlWithdrawResult result = await _executeSDKOperation(
-        () => _breezSdkLiquid.instance!.lnurlWithdraw(req: req),
+        () => _breezSdkSpark.instance!.lnurlWithdraw(req: req),
       );
 
       _logger.info('LNURL withdraw completed successfully');
@@ -54,7 +54,7 @@ class LnUrlService {
 
     try {
       final PrepareLnUrlPayResponse response = await _executeSDKOperation(
-        () => _breezSdkLiquid.instance!.prepareLnurlPay(req: req),
+        () => _breezSdkSpark.instance!.prepareLnurlPay(req: req),
       );
 
       _logger.info('LNURL payment preparation completed');
@@ -76,7 +76,7 @@ class LnUrlService {
 
     try {
       final LnUrlPayResult result = await _executeSDKOperation(
-        () => _breezSdkLiquid.instance!.lnurlPay(req: req),
+        () => _breezSdkSpark.instance!.lnurlPay(req: req),
       );
 
       _logger.info('LNURL payment executed successfully');
@@ -98,7 +98,7 @@ class LnUrlService {
 
     try {
       final LnUrlCallbackStatus status = await _executeSDKOperation(
-        () => _breezSdkLiquid.instance!.lnurlAuth(reqData: reqData),
+        () => _breezSdkSpark.instance!.lnurlAuth(reqData: reqData),
       );
 
       _logger.info('LNURL authentication completed');
@@ -155,7 +155,7 @@ class LnUrlService {
   ///
   /// Returns the result of the operation
   Future<T> _executeSDKOperation<T>(Future<T> Function() operation) async {
-    if (_breezSdkLiquid.instance == null) {
+    if (_breezSdkSpark.instance == null) {
       throw StateError('Breez SDK Liquid instance is not initialized');
     }
 

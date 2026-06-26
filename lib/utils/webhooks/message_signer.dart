@@ -5,14 +5,14 @@ import 'package:logging/logging.dart';
 final Logger _logger = Logger('MessageSigner');
 
 class MessageSigner {
-  final BreezSDKLiquid breezSdkLiquid;
+  final BreezSDKSpark breezSdkSpark;
 
-  MessageSigner(this.breezSdkLiquid);
+  MessageSigner(this.breezSdkSpark);
 
   Future<String> signMessage(String message) async {
     _logger.info('Signing message: $message');
 
-    final SignMessageResponse? signMessageRes = breezSdkLiquid.instance?.signMessage(
+    final SignMessageResponse? signMessageRes = breezSdkSpark.instance?.signMessage(
       req: SignMessageRequest(message: message),
     );
 

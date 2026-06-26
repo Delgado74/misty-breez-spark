@@ -23,9 +23,9 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
 
   Stream<PaymentFilters> get paymentFiltersStream => _paymentFiltersStreamController.stream;
 
-  final BreezSDKLiquid _breezSdkLiquid;
+  final BreezSDKSpark _breezSdkSpark;
 
-  PaymentsCubit(this._breezSdkLiquid) : super(PaymentsState.initial()) {
+  PaymentsCubit(this._breezSdkSpark) : super(PaymentsState.initial()) {
     hydrate();
 
     _paymentFiltersStreamController.add(state.paymentFilters);
@@ -38,7 +38,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
     final BreezTranslations texts = getSystemAppLocalizations();
 
     Rx.combineLatest2<List<Payment>, PaymentFilters, PaymentsState>(
-      _breezSdkLiquid.paymentsStream,
+      _breezSdkSpark.paymentsStream,
       paymentFiltersStream,
       (List<Payment> payments, PaymentFilters paymentFilters) {
         return state.copyWith(
@@ -54,7 +54,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
     required void Function(Payment) onData,
     Function? onError,
   }) {
-    return _breezSdkLiquid.paymentEventStream
+    return _breezSdkSpark.paymentEventStream
         .map((PaymentEvent e) => e.payment)
         .where(paymentFilter)
         .listen((Payment payment) => onData.call(payment), onError: onError);
@@ -72,21 +72,21 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
       excludedIds: excludedIds,
     );
 
-    return _breezSdkLiquid.paymentsStream
+    return _breezSdkSpark.paymentsStream
         .expand((List<Payment> payments) => payments)
         .where(paymentFilter.passes)
         .listen(onData, onError: onError);
   }
 
   Future<Set<String>> _getExistingPaymentIds() async {
-    final List<Payment> payments = await _breezSdkLiquid.paymentsStream.take(1).first;
+    final List<Payment> payments = await _breezSdkSpark.paymentsStream.take(1).first;
     return payments.map((Payment p) => p.trackingId).where((String id) => id.isNotEmpty).toSet();
   }
 
   Future<PrepareSendResponse> prepareSendPayment({required PrepareSendRequest req}) async {
     _logger.info('prepareSendPayment\nPreparing send payment for destination: ${req.destination}');
     try {
-      return await _breezSdkLiquid.instance!.prepareSendPayment(req: req);
+      return await _breezSdkSpark.instance!.prepareSendPayment(req: req);
     } catch (e) {
       _logger.severe('prepareSendPayment\nError preparing send payment', e);
       return Future<PrepareSendResponse>.error(e);
@@ -103,7 +103,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
         prepareResponse: prepareResponse,
         payerNote: payerNote,
       );
-      return await _breezSdkLiquid.instance!.sendPayment(req: req);
+      return await _breezSdkSpark.instance!.sendPayment(req: req);
     } catch (e) {
       _logger.severe('sendPayment\nError sending payment', e);
       return Future<SendPaymentResponse>.error(e);
@@ -123,7 +123,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
         paymentMethod: paymentMethod,
         amount: receiveAmount,
       );
-      return _breezSdkLiquid.instance!.prepareReceivePayment(req: req);
+      return _breezSdkSpark.instance!.prepareReceivePayment(req: req);
     } catch (e) {
       _logger.severe('prepareSendPayment\nError preparing receive payment', e);
       return Future<PrepareReceiveResponse>.error(e);
@@ -143,7 +143,7 @@ class PaymentsCubit extends Cubit<PaymentsState> with HydratedMixin<PaymentsStat
         prepareResponse: prepareResponse,
         description: description,
       );
-      return _breezSdkLiquid.instance!.receivePayment(req: req);
+      return _breezSdkSpark.instance!.receivePayment(req: req);
     } catch (e) {
       _logger.severe('receivePayment\nError receiving payment', e);
       return Future<ReceivePaymentResponse>.error(e);

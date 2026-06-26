@@ -23,7 +23,7 @@ Future<LNURLPageResult?> handleWithdrawRequest(
   Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (_) => BlocProvider<PaymentLimitsCubit>(
-        create: (BuildContext context) => PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+        create: (BuildContext context) => PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
         child: Scaffold(
           appBar: AppBar(
             leading: const back_button.BackButton(),

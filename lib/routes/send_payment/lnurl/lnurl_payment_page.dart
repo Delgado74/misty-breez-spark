@@ -614,7 +614,7 @@ class LnUrlPaymentPageState extends State<LnUrlPaymentPage> {
         .push<PrepareLnUrlPayResponse?>(
           FadeInRoute<PrepareLnUrlPayResponse?>(
             builder: (_) => BlocProvider<PaymentLimitsCubit>(
-              create: (BuildContext context) => PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+              create: (BuildContext context) => PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
               child: LnUrlPaymentPage(
                 isConfirmation: true,
                 isDrain: _isDrain,

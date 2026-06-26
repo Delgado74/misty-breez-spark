@@ -1,4 +1,29 @@
-import 'package:breez_sdk_spark_flutter/breez_sdk_spark.dart' as spark_sdk;
+class Limits {
+  final BigInt minSat;
+  final BigInt maxSat;
+
+  Limits({BigInt? minSat, BigInt? maxSat})
+    : minSat = minSat ?? BigInt.zero,
+      maxSat = maxSat ?? BigInt.zero;
+}
+
+class LightningPaymentLimitsResponse {
+  final Limits send;
+  final Limits receive;
+
+  LightningPaymentLimitsResponse({Limits? send, Limits? receive})
+    : send = send ?? Limits(),
+      receive = receive ?? Limits();
+}
+
+class OnchainPaymentLimitsResponse {
+  final Limits send;
+  final Limits receive;
+
+  OnchainPaymentLimitsResponse({Limits? send, Limits? receive})
+    : send = send ?? Limits(),
+      receive = receive ?? Limits();
+}
 
 class PaymentLimitsState {
   final LightningPaymentLimitsResponse? lightningPaymentLimits;

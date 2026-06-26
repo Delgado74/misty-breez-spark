@@ -25,14 +25,14 @@ class App extends StatelessWidget {
       providers: <SingleChildWidget>[
         BlocProvider<AccountCubit>(
           lazy: false,
-          create: (BuildContext context) => AccountCubit(injector.breezSdkLiquid),
+          create: (BuildContext context) => AccountCubit(injector.breezSdkSpark),
         ),
-        BlocProvider<PaymentsCubit>(create: (BuildContext context) => PaymentsCubit(injector.breezSdkLiquid)),
+        BlocProvider<PaymentsCubit>(create: (BuildContext context) => PaymentsCubit(injector.breezSdkSpark)),
         BlocProvider<SdkConnectivityCubit>(create: (BuildContext context) => sdkConnectivityCubit),
-        BlocProvider<RefundCubit>(create: (BuildContext context) => RefundCubit(injector.breezSdkLiquid)),
+        BlocProvider<RefundCubit>(create: (BuildContext context) => RefundCubit(injector.breezSdkSpark)),
         BlocProvider<ConnectivityCubit>(create: (BuildContext context) => ConnectivityCubit()),
         BlocProvider<InputCubit>(
-          create: (BuildContext context) => InputCubit(injector.breezSdkLiquid, injector.lightningLinks),
+          create: (BuildContext context) => InputCubit(injector.breezSdkSpark, injector.lightningLinks),
         ),
         BlocProvider<UserProfileCubit>(
           create: (BuildContext context) => UserProfileCubit(injector.breezPreferences),
@@ -40,19 +40,19 @@ class App extends StatelessWidget {
         BlocProvider<LnAddressCubit>(
           create: (BuildContext context) => LnAddressCubitFactory.create(injector, permissionsCubit),
         ),
-        BlocProvider<CurrencyCubit>(create: (BuildContext context) => CurrencyCubit(injector.breezSdkLiquid)),
+        BlocProvider<CurrencyCubit>(create: (BuildContext context) => CurrencyCubit(injector.breezSdkSpark)),
         BlocProvider<SecurityCubit>(create: (BuildContext context) => SecurityCubit(injector.keychain)),
-        BlocProvider<BackupCubit>(create: (BuildContext context) => BackupCubit(injector.breezSdkLiquid)),
+        BlocProvider<BackupCubit>(create: (BuildContext context) => BackupCubit(injector.breezSdkSpark)),
         BlocProvider<ChainSwapCubit>(
-          create: (BuildContext context) => ChainSwapCubit(injector.breezSdkLiquid),
+          create: (BuildContext context) => ChainSwapCubit(injector.breezSdkSpark),
         ),
         BlocProvider<AmountlessBtcCubit>(
-          create: (BuildContext context) => AmountlessBtcCubit(injector.breezSdkLiquid),
+          create: (BuildContext context) => AmountlessBtcCubit(injector.breezSdkSpark),
         ),
         BlocProvider<PermissionsCubit>(create: (BuildContext context) => permissionsCubit),
       ],
       child: Provider<LnUrlService>(
-        create: (BuildContext context) => LnUrlService(injector.breezSdkLiquid),
+        create: (BuildContext context) => LnUrlService(injector.breezSdkSpark),
         child: const AppView(),
       ),
     );

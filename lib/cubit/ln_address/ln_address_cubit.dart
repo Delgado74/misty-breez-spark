@@ -14,10 +14,10 @@ export 'utils/utils.dart';
 final Logger _logger = Logger('LnAddressCubit');
 
 class LnAddressCubit extends Cubit<LnAddressState> {
-  final BreezSDKLiquid breezSdkLiquid;
+  final BreezSDKSpark breezSdkSpark;
   final LnUrlRegistrationManager registrationManager;
 
-  LnAddressCubit({required this.breezSdkLiquid, required this.registrationManager})
+  LnAddressCubit({required this.breezSdkSpark, required this.registrationManager})
     : super(const LnAddressState()) {
     _initializeLnAddressCubit();
   }
@@ -25,7 +25,7 @@ class LnAddressCubit extends Cubit<LnAddressState> {
   /// Attempts to recover the Lightning Address once pubKey is available
   void _initializeLnAddressCubit() {
     _logger.info('Initializing Lightning Address Cubit.');
-    breezSdkLiquid.getInfoResponseStream.first
+    breezSdkSpark.getInfoResponseStream.first
         .then((GetInfoResponse getInfoResponse) {
           _logger.info('Received wallet info, setting up Lightning Address.');
           setupLightningAddress(pubKey: getInfoResponse.walletInfo.pubkey, isRecover: true);
@@ -137,7 +137,7 @@ class LnAddressCubit extends Cubit<LnAddressState> {
   }
 
   Future<WalletInfo> _getWalletInfo() async {
-    return (await breezSdkLiquid.instance?.getInfo())?.walletInfo ??
+    return (await breezSdkSpark.instance?.getInfo())?.walletInfo ??
         (throw Exception('Failed to retrieve wallet info'));
   }
 
@@ -149,7 +149,7 @@ class LnAddressCubit extends Cubit<LnAddressState> {
 
   Future<String?> _getBolt12Offer() async {
     try {
-      final BreezSdkLiquid sdkInstance = breezSdkLiquid.instance!;
+      final spark_sdk.BreezSdk sdkInstance = breezSdkSpark.instance!;
       const PrepareReceiveRequest prepareReq = PrepareReceiveRequest(
         paymentMethod: PaymentMethod.bolt12Offer,
       );

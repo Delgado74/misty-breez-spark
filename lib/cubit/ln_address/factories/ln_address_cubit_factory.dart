@@ -6,15 +6,15 @@ import 'package:service_injector/service_injector.dart';
 
 class LnAddressCubitFactory {
   static LnAddressCubit create(ServiceInjector injector, PermissionsCubit permissionsCubit) {
-    final BreezSDKLiquid breezSdkLiquid = injector.breezSdkLiquid;
+    final BreezSDKSpark breezSdkSpark = injector.breezSdkSpark;
     final BreezPreferences breezPreferences = injector.breezPreferences;
     final WebhookService webhookService = WebhookService(
-      breezSdkLiquid,
+      breezSdkSpark,
       injector.notifications,
       permissionsCubit,
     );
 
-    final MessageSigner messageSigner = MessageSigner(breezSdkLiquid);
+    final MessageSigner messageSigner = MessageSigner(breezSdkSpark);
     final LnUrlWebhookRequestBuilder requestBuilder = LnUrlWebhookRequestBuilder(messageSigner);
     final UsernameResolver usernameResolver = UsernameResolver(breezPreferences);
     final LnUrlPayService lnAddressService = LnUrlPayService();
@@ -27,6 +27,6 @@ class LnAddressCubitFactory {
       webhookService: webhookService,
     );
 
-    return LnAddressCubit(breezSdkLiquid: breezSdkLiquid, registrationManager: registrationManager);
+    return LnAddressCubit(breezSdkSpark: breezSdkSpark, registrationManager: registrationManager);
   }
 }

@@ -51,7 +51,7 @@ Route<dynamic>? onGenerateRoute({
                     return FadeInRoute<void>(
                       builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
                         create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
                         child: ReceivePaymentPage(initialPageIndex: settings.arguments as int?),
                       ),
                       settings: settings,
@@ -65,7 +65,7 @@ Route<dynamic>? onGenerateRoute({
                     return FadeInRoute<void>(
                       builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
                         create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
                         child: const ReceiveLightningPaymentPage(),
                       ),
                       settings: settings,
@@ -74,7 +74,7 @@ Route<dynamic>? onGenerateRoute({
                     return FadeInRoute<void>(
                       builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
                         create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
                         child: const ReceiveBitcoinAddressPaymentPage(),
                       ),
                       settings: settings,
@@ -98,7 +98,7 @@ Route<dynamic>? onGenerateRoute({
                     return FadeInRoute<void>(
                       builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
                         create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
                         child: SendChainSwapPage(btcAddressData: settings.arguments as BitcoinAddressData?),
                       ),
                       settings: settings,
@@ -107,7 +107,7 @@ Route<dynamic>? onGenerateRoute({
                     return FadeInRoute<SendPaymentRequest?>(
                       builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
                         create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
                         child: LnPaymentPage(lnInvoice: settings.arguments as LNInvoice),
                       ),
                       settings: settings,
@@ -116,7 +116,7 @@ Route<dynamic>? onGenerateRoute({
                     return FadeInRoute<SendPaymentRequest?>(
                       builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
                         create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
                         child: LnOfferPaymentPage(
                           lnOfferPaymentArguments: settings.arguments as LnOfferPaymentArguments,
                         ),
@@ -127,7 +127,7 @@ Route<dynamic>? onGenerateRoute({
                     return FadeInRoute<PrepareLnUrlPayResponse?>(
                       builder: (BuildContext context) => BlocProvider<PaymentLimitsCubit>(
                         create: (BuildContext context) =>
-                            PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+                            PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
                         child: LnUrlPaymentPage(
                           lnUrlPaymentArguments: settings.arguments as LnUrlPaymentArguments,
                         ),

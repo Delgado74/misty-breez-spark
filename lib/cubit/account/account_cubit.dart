@@ -13,9 +13,9 @@ export 'onboarding_preferences.dart';
 final Logger _logger = Logger('AccountCubit');
 
 class AccountCubit extends Cubit<AccountState> with HydratedMixin<AccountState> {
-  final BreezSDKLiquid breezSdkLiquid;
+  final BreezSDKSpark breezSdkSpark;
 
-  AccountCubit(this.breezSdkLiquid) : super(AccountState.initial()) {
+  AccountCubit(this.breezSdkSpark) : super(AccountState.initial()) {
     hydrate();
 
     _listenAccountChanges();
@@ -25,7 +25,7 @@ class AccountCubit extends Cubit<AccountState> with HydratedMixin<AccountState> 
   void _listenAccountChanges() {
     _logger.info('Initial AccountState: $state');
     _logger.info('Listening to account changes');
-    breezSdkLiquid.getInfoResponseStream
+    breezSdkSpark.getInfoResponseStream
         .map((GetInfoResponse e) => DistinctGetInfoResponse(e))
         .distinct()
         .map((DistinctGetInfoResponse e) => e.inner)
@@ -42,7 +42,7 @@ class AccountCubit extends Cubit<AccountState> with HydratedMixin<AccountState> 
 
   void _listenInitialSyncEvent() {
     _logger.info('Listening to initial sync event.');
-    breezSdkLiquid.didCompleteInitialSyncStream.listen((_) {
+    breezSdkSpark.didCompleteInitialSyncStream.listen((_) {
       _logger.info('Initial sync complete.');
       emit(state.copyWith(isRestoring: false, didCompleteInitialSync: true));
     });

@@ -559,7 +559,7 @@ class LnOfferPaymentPageState extends State<LnOfferPaymentPage> {
     final SendPaymentRequest? sendPaymentRequest = await Navigator.of(context).push<SendPaymentRequest?>(
       FadeInRoute<SendPaymentRequest?>(
         builder: (_) => BlocProvider<PaymentLimitsCubit>(
-          create: (BuildContext context) => PaymentLimitsCubit(ServiceInjector().breezSdkLiquid),
+          create: (BuildContext context) => PaymentLimitsCubit(ServiceInjector().breezSdkSpark),
           child: LnOfferPaymentPage(
             isConfirmation: true,
             isDrain: _isDrain,
